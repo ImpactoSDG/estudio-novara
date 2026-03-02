@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply font-inter text-gray-800;
+  }
+
+  h1 {
+    @apply font-montserrat font-bold text-3xl;
+  }
+
+  h2 {
+    @apply font-montserrat font-bold text-2xl;
+  }
+
+  h3 {
+    @apply font-montserrat font-semibold text-xl;
+  }
+
+  a {
+    @apply transition-colors duration-200;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-6 py-2 bg-primary-naranja text-white font-semibold rounded-lg hover:opacity-90 transition-opacity duration-200;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-2 bg-gray-200 text-gray-800 font-semibold rounded-lg hover:bg-gray-300 transition-colors duration-200;
+  }
+
+  .nav-link {
+    @apply hover:text-primary-azul transition-colors duration-200;
+  }
+}

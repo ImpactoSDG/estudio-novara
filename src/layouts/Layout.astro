@@ -1,0 +1,127 @@
+---
+import '../styles/globals.css';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = 'Estudio Novara - Consultoría Contable', description = 'Somos un estudio contable especializado en asesoramiento fiscal y contable para empresas y profesionales.' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="keywords" content="contabilidad, asesoramiento fiscal, estudio contable" />
+    <meta name="author" content="Estudio Novara" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    
+    <link rel="canonical" href={Astro.url.href} />
+    
+    <title>{title}</title>
+  </head>
+  <body class="bg-slate-50 flex flex-col min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+      <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <!-- Logo/Nombre -->
+          <div class="flex-shrink-0">
+            <a href="/" class="hover:opacity-80 transition-opacity inline-flex items-center gap-3">
+              <img src="/img/logo_estudio.png" alt="Estudio Novara" class="h-10 w-auto" />
+              <span class="text-lg font-montserrat font-bold text-primary-naranja">Estudio Novara</span>
+            </a>
+          </div>
+
+          <!-- Nav Links -->
+          <div class="hidden md:flex space-x-8">
+            <a href="/" class="nav-link text-gray-700 hover:text-primary-azul font-medium">
+              Inicio
+            </a>
+            <a href="/servicios" class="nav-link text-gray-700 hover:text-primary-azul font-medium">
+              Servicios
+            </a>
+            <a href="/equipo" class="nav-link text-gray-700 hover:text-primary-azul font-medium">
+              Nuestro equipo
+            </a>
+            <a href="/contacto" class="nav-link text-gray-700 hover:text-primary-azul font-medium">
+              Contacto
+            </a>
+          </div>
+
+          <!-- Mobile menu button (optional) -->
+          <div class="md:hidden">
+            <button class="text-gray-700 hover:text-primary-azul" aria-label="Menu">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-primary-negro text-gray-100 py-12 mt-20">
+      <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Empresa Info -->
+          <div>
+            <h3 class="text-lg font-montserrat font-bold text-white mb-4">
+              Servicios
+            </h3>
+            <p class="text-gray-300 text-sm">
+              Soluciones para monotributistas, responsables inscriptos, sociedades y mucho más
+            </p>
+          </div>
+
+          <!-- Dirección -->
+          <div>
+            <h4 class="text-lg font-semibold text-white mb-4 font-montserrat">
+              Ubicación
+            </h4>
+            <p class="text-gray-300 text-sm">
+              General Paz 304<br />
+              San Francisco, Córdoba<br />
+              Argentina
+            </p>
+          </div>
+
+          <!-- Contacto -->
+          <div>
+            <h4 class="text-lg font-semibold text-white mb-4 font-montserrat">
+              Contacto
+            </h4>
+            <p class="text-gray-300 text-sm">
+              <a href="mailto:administracion@estudionovara.com" class="hover:text-primary-naranja transition-colors">administracion@estudionovara.com</a><br />
+
+              Lun-Vie: 7:30 - 15:30 hs<br />
+              Sáb y Dom: Cerrado
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </footer>
+
+    <!-- WhatsApp Button (hidden on /contacto) -->
+    {Astro.url.pathname !== '/contacto' && <WhatsAppButton />}
+  </body>
+</html>
+
+<style is:global>
+  * {
+    @apply m-0 p-0 box-border;
+  }
+</style>

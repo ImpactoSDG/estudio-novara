@@ -1,17 +1,416 @@
 ---
+import Layout from '../layouts/Layout.astro';
 
+const defaultStats = {
+	anos_asesorando: 10,
+	total_clientes_activos: 120,
+	rubros_atendidos: 15,
+	rubros_list: ['Comercios', 'Construccion', 'Profesionales', 'Gastronomia', 'Salud', 'Educacion', 'Tecnologia', 'Servicios']
+};
+
+const startDate = new Date('2007-01-01');
+const now = new Date();
+let years = now.getFullYear() - startDate.getFullYear();
+const anniversaryThisYear = new Date(now.getFullYear(), startDate.getMonth(), startDate.getDate());
+if (now < anniversaryThisYear) {
+	years -= 1;
+}
+
+const stats = { ...defaultStats, anos_asesorando: years };
+
+const servicesSummary = [
+	{
+		title: 'Asesoramiento Impositivo',
+		description: 'Gestión integral de obligaciones fiscales adaptada a tu tipo de negocio',
+		sub: 'Monotributo · RI/Sociedades',
+		accent: 'border-primary-naranja',
+		href: '/servicios#service-1'
+	},
+	{
+		title: 'Asesoramiento Laboral',
+		description: 'Administración de personal y cumplimiento normativo laboral',
+		sub: 'Agremiados · Domésticas',
+		accent: 'border-primary-azul',
+		href: '/servicios#service-2'
+	},
+	{
+		title: 'Asesoramiento Contable',
+		description: 'Contabilidad completa y análisis financiero para tomar mejores decisiones',
+		sub: 'Empresas · Asociaciones',
+		accent: 'border-primary-rojo',
+		href: '/servicios#service-3'
+	},
+	{
+		title: 'Asesoramiento de Gestión',
+		description: 'Digitalización y optimización de procesos administrativos',
+		sub: 'Consultoría General',
+		accent: 'border-primary-negro',
+		href: '/servicios#service-4'
+	}
+];
+
+const rubroIconMap: Record<string, string> = {
+	comercios: 'fa-store',
+	construccion: 'fa-helmet-safety',
+	profesionales: 'fa-user-tie',
+	gastronomia: 'fa-utensils',
+	salud: 'fa-heart-pulse',
+	educacion: 'fa-graduation-cap',
+	tecnologia: 'fa-microchip',
+	servicios: 'fa-briefcase',
+	textil: 'fa-shirt',
+	abogacia: 'fa-scale-balanced',
+	alimentos: 'fa-apple-whole',
+	arrendamiento: 'fa-key',
+	asesoramientoempresarial: 'fa-chart-line',
+	comercio: 'fa-cart-shopping',
+	contabilidad: 'fa-file-invoice-dollar',
+	medicinaycuidadopersonal: 'fa-hand-holding-heart',
+	plasticos: 'fa-industry',
+	profesordefisica: 'fa-dumbbell'
+};
+
+const normalizeRubroKey = (value: string) =>
+	value
+		.toLowerCase()
+		.normalize('NFD')
+		.replace(/[\u0300-\u036f]/g, '')
+		.replace(/[^a-z0-9]+/g, '');
+
+const getRubroIconClass = (rubro: string) =>
+	rubroIconMap[normalizeRubroKey(rubro)] ?? 'fa-briefcase';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="Estudio Novara - Inicio" description="Bienvenido a Estudio Novara, tu asesor contable de confianza">
+	<div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+		<section class="hero-section text-center py-20">
+			<div class="hero-content">
+				<h1 class="text-5xl sm:text-6xl font-montserrat font-bold text-primary-naranja mb-8">
+					#SolucionesATuMedida
+				</h1>
+				<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+					<a href="#servicios" class="inline-block px-6 py-2 rounded-lg font-semibold bg-primary-azul text-white hover:opacity-90 transition-colors duration-200">
+						Servicios
+					</a>
+					<a href="/contacto" class="inline-block px-6 py-2 rounded-lg font-semibold bg-primary-azul text-white hover:opacity-90 transition-colors duration-200">
+						Contactanos
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<section class="py-20">
+			<div class="text-center mb-12">
+				<h2 class="text-4xl font-montserrat font-bold text-primary-negro mb-4">
+					Confían en nosotros
+				</h2>
+				<p class="text-gray-600 text-lg">
+					Acompañamos a profesionales, empresas y comercios con soluciones contables claras y a tiempo.
+				</p>
+			</div>
+
+			<!-- Tarjetas de estadísticas -->
+			<div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16">
+				<div class="rounded-2xl bg-gradient-to-br from-orange-50 to-white border-2 border-primary-naranja/20 p-8 shadow-lg hover:shadow-xl transition-all text-center">
+					<p class="text-5xl font-bold text-primary-naranja mb-2" data-stat="anos_asesorando">+{stats.anos_asesorando}</p>
+					<p class="text-gray-700 font-semibold">años ofreciendo soluciones</p>
+				</div>
+				<div class="rounded-2xl bg-gradient-to-br from-blue-50 to-white border-2 border-primary-azul/20 p-8 shadow-lg hover:shadow-xl transition-all text-center">
+					<p class="text-5xl font-bold text-primary-azul mb-2" data-stat="total_clientes_activos">+{stats.total_clientes_activos}</p>
+					<p class="text-gray-700 font-semibold">clientes confían en nosotros</p>
+				</div>
+				<div class="rounded-2xl bg-gradient-to-br from-red-50 to-white border-2 border-primary-rojo/20 p-8 shadow-lg hover:shadow-xl transition-all text-center">
+					<p class="text-5xl font-bold text-primary-rojo mb-2" data-stat="rubros_atendidos">+{stats.rubros_atendidos}</p>
+					<p class="text-gray-700 font-semibold">rubros asesorados</p>
+				</div>
+			</div>
+
+			<!-- Rubros atendidos -->
+			<div class="text-center">
+				<h3 class="text-2xl font-montserrat font-bold text-primary-negro mb-8">Rubros atendidos</h3>
+				<div class="carousel-container">
+					<div class="carousel-track" data-rubros-track>
+						{stats.rubros_list.map((rubro) => (
+							<div class="rubro-card">
+								<span class="rubro-icon" aria-hidden="true">
+									<i class={`fa-solid ${getRubroIconClass(rubro)}`}></i>
+								</span>
+								<h4 class="rubro-title">{rubro}</h4>
+							</div>
+						))}
+						{stats.rubros_list.map((rubro) => (
+							<div class="rubro-card">
+								<span class="rubro-icon" aria-hidden="true">
+									<i class={`fa-solid ${getRubroIconClass(rubro)}`}></i>
+								</span>
+								<h4 class="rubro-title">{rubro}</h4>
+							</div>
+						))}
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="py-12" id="servicios">
+			<h2 class="text-3xl font-montserrat font-bold text-primary-negro mb-6 text-center">
+				Nuestros servicios
+			</h2>
+			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+				{servicesSummary.map((service) => (
+					<a
+						href={service.href}
+						class={`bg-white p-6 rounded-xl shadow-sm border-t-4 ${service.accent} hover:shadow-md transition-shadow block`}
+					>
+						<h3 class="text-lg font-montserrat font-bold text-primary-negro mb-2">
+							{service.title}
+						</h3>
+						<p class="text-sm text-gray-600">
+							{service.description}
+						</p>
+					</a>
+				))}
+			</div>
+		</section>
+	</div>
+</Layout>
+
+<script>
+	const statsElements = document.querySelectorAll('[data-stat]');
+	const rubrosTrack = document.querySelector('[data-rubros-track]');
+
+	const rubroIconMap = {
+		comercios: 'fa-store',
+		construccion: 'fa-helmet-safety',
+		profesionales: 'fa-user-tie',
+		gastronomia: 'fa-utensils',
+		salud: 'fa-heart-pulse',
+		educacion: 'fa-graduation-cap',
+		tecnologia: 'fa-microchip',
+		servicios: 'fa-briefcase',
+		textil: 'fa-shirt',
+		abogacia: 'fa-scale-balanced',
+		alimentos: 'fa-apple-whole',
+		arrendamiento: 'fa-key',
+		asesoramientoempresarial: 'fa-chart-line',
+		comercio: 'fa-cart-shopping',
+		contabilidad: 'fa-file-invoice-dollar',
+		medicinaycuidadopersonal: 'fa-hand-holding-heart',
+		plasticos: 'fa-industry',
+		profesordefisica: 'fa-dumbbell'
+	};
+
+	const normalizeRubroKey = (value) =>
+		value
+			.toLowerCase()
+			.normalize('NFD')
+			.replace(/[\u0300-\u036f]/g, '')
+			.replace(/[^a-z0-9]+/g, '');
+
+	const getRubroIconClass = (rubro) =>
+		rubroIconMap[normalizeRubroKey(rubro)] ?? 'fa-briefcase';
+
+	const calculateYears = () => {
+		const startDate = new Date('2007-01-01');
+		const now = new Date();
+		let years = now.getFullYear() - startDate.getFullYear();
+		const anniversaryThisYear = new Date(now.getFullYear(), startDate.getMonth(), startDate.getDate());
+		if (now < anniversaryThisYear) {
+			years -= 1;
+		}
+		return years;
+	};
+
+	const renderRubros = (rubros) => {
+		if (!rubrosTrack || !Array.isArray(rubros) || rubros.length === 0) {
+			return;
+		}
+
+		const cards = rubros.map((rubro) => {
+			const iconClass = getRubroIconClass(rubro);
+			return `
+				<div class="rubro-card">
+					<span class="rubro-icon" aria-hidden="true">
+						<i class="fa-solid ${iconClass}"></i>
+					</span>
+					<h4 class="rubro-title">${rubro}</h4>
+				</div>
+			`;
+		});
+
+		rubrosTrack.innerHTML = cards.concat(cards).join('');
+	};
+
+	const updateStats = (data) => {
+		if (!data || typeof data !== 'object') {
+			return;
+		}
+
+		const years = calculateYears();
+		const normalizedData = {
+			...data,
+			anos_asesorando: years
+		};
+
+		statsElements.forEach((element) => {
+			const key = element.getAttribute('data-stat');
+			if (key && key in normalizedData) {
+				element.textContent = `+${normalizedData[key]}`;
+			}
+		});
+
+		renderRubros(normalizedData.rubros_list);
+	};
+
+	const fetchStats = async () => {
+		try {
+			const response = await fetch('/api/stats.php', { cache: 'no-store' });
+			if (!response.ok) {
+				return;
+			}
+			const data = await response.json();
+			updateStats(data);
+		} catch (error) {
+			console.error('Error fetching stats:', error);
+		}
+	};
+
+	updateStats({});
+	fetchStats();
+</script>
+
+<style>
+	.hero-section {
+		position: relative;
+		overflow: hidden;
+		border-radius: 24px;
+	}
+
+	.hero-section::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background-image: url('/img/hero-estudio.jpg');
+		background-size: cover;
+		background-position: center;
+		filter: blur(1px);
+		transform: scale(1.02);
+		z-index: 0;
+	}
+
+	.hero-section::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: rgba(255, 255, 255, 0.4);
+		z-index: 1;
+	}
+
+	.hero-content {
+		position: relative;
+		z-index: 2;
+	}
+
+	.carousel-container {
+		overflow: hidden;
+		width: 100%;
+		position: relative;
+		mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+		-webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+		padding: 10px 0;
+	}
+
+	.carousel-track {
+		display: flex;
+		gap: 20px;
+		animation: scroll 35s linear infinite;
+		width: fit-content;
+	}
+
+	.carousel-track:hover {
+		animation-play-state: paused;
+	}
+
+	@keyframes scroll {
+		0% {
+			transform: translateX(0);
+		}
+		100% {
+			transform: translateX(-50%);
+		}
+	}
+
+	.rubro-card {
+		flex-shrink: 0;
+		min-width: 200px;
+		padding: 20px 32px;
+		background: linear-gradient(135deg, rgba(47, 101, 109, 0.18) 0%, rgba(213, 118, 41, 0.12) 100%);
+		border-radius: 12px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 12px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.1);
+		border: 1.5px solid rgba(47, 101, 109, 0.45);
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		position: relative;
+	}
+
+	.rubro-card::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 4px;
+		background: linear-gradient(90deg, #d57629, #2f656d);
+		border-radius: 12px 12px 0 0;
+	}
+
+	.rubro-card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 10px 24px rgba(47, 101, 109, 0.28), 0 3px 6px rgba(0, 0, 0, 0.1);
+		border-color: rgba(47, 101, 109, 0.8);
+	}
+
+	.rubro-icon {
+		width: 36px;
+		height: 36px;
+		border-radius: 10px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		background: #2f656d;
+		color: #ffffff;
+		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+	}
+
+	.rubro-icon i {
+		font-size: 16px;
+	}
+
+	.rubro-title {
+		font-size: 15px;
+		font-weight: 600;
+		color: #333437;
+		text-align: center;
+		margin: 0;
+		font-family: 'Montserrat', sans-serif;
+		letter-spacing: 0.3px;
+	}
+
+	@media (max-width: 640px) {
+		.rubro-card {
+			min-width: 160px;
+			padding: 16px 24px;
+		}
+		
+		.rubro-title {
+			font-size: 14px;
+		}
+		
+		.carousel-track {
+			gap: 16px;
+		}
+	}
+</style>
+
