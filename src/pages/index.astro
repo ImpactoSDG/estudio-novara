@@ -2,46 +2,41 @@
 import Layout from '../layouts/Layout.astro';
 
 const defaultStats = {
-	anos_asesorando: 10,
-	total_clientes_activos: 120,
-	rubros_atendidos: 15,
-	rubros_list: ['Comercios', 'Construccion', 'Profesionales', 'Gastronomia', 'Salud', 'Educacion', 'Tecnologia', 'Servicios']
+	anos_asesorando: null,
+	total_clientes_activos: null,
+	rubros_atendidos: null,
+	rubros_list: []
 };
 
-const startDate = new Date('2007-01-01');
-const now = new Date();
-let years = now.getFullYear() - startDate.getFullYear();
-const anniversaryThisYear = new Date(now.getFullYear(), startDate.getMonth(), startDate.getDate());
-if (now < anniversaryThisYear) {
-	years -= 1;
-}
+const stats = { ...defaultStats };
 
-const stats = { ...defaultStats, anos_asesorando: years };
+const formatStat = (value: number | null) =>
+	typeof value === 'number' && Number.isFinite(value) ? `+${value}` : '...';
 
 const servicesSummary = [
 	{
-		title: 'Asesoramiento Impositivo',
+		title: 'Impositivo',
 		description: 'Gestión integral de obligaciones fiscales adaptada a tu tipo de negocio',
 		sub: 'Monotributo · RI/Sociedades',
 		accent: 'border-primary-naranja',
 		href: '/servicios#service-1'
 	},
 	{
-		title: 'Asesoramiento Laboral',
+		title: 'Laboral',
 		description: 'Administración de personal y cumplimiento normativo laboral',
 		sub: 'Agremiados · Domésticas',
 		accent: 'border-primary-azul',
 		href: '/servicios#service-2'
 	},
 	{
-		title: 'Asesoramiento Contable',
+		title: 'Contable',
 		description: 'Contabilidad completa y análisis financiero para tomar mejores decisiones',
 		sub: 'Empresas · Asociaciones',
 		accent: 'border-primary-rojo',
 		href: '/servicios#service-3'
 	},
 	{
-		title: 'Asesoramiento de Gestión',
+		title: 'Gestión',
 		description: 'Digitalización y optimización de procesos administrativos',
 		sub: 'Consultoría General',
 		accent: 'border-primary-negro',
@@ -82,52 +77,52 @@ const getRubroIconClass = (rubro: string) =>
 ---
 
 <Layout title="Estudio Novara - Inicio" description="Bienvenido a Estudio Novara, tu asesor contable de confianza">
-	<div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-		<section class="hero-section text-center py-20">
+	<div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-12">
+		<section class="hero-section text-center py-12 sm:py-16 lg:py-20">
 			<div class="hero-content">
-				<h1 class="text-5xl sm:text-6xl font-montserrat font-bold text-primary-naranja mb-8">
+				<h1 class="text-3xl sm:text-5xl lg:text-6xl leading-tight font-montserrat font-bold text-primary-naranja mb-6 sm:mb-8 px-2">
 					#SolucionesATuMedida
 				</h1>
-				<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-					<a href="#servicios" class="inline-block px-6 py-2 rounded-lg font-semibold bg-primary-azul text-white hover:opacity-90 transition-colors duration-200">
+				<div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-md mx-auto sm:max-w-none">
+					<a href="#servicios" class="inline-block w-auto min-w-[190px] text-center px-6 py-3 sm:py-2 rounded-lg font-semibold bg-primary-azul text-white hover:opacity-90 transition-colors duration-200">
 						Servicios
 					</a>
-					<a href="/contacto" class="inline-block px-6 py-2 rounded-lg font-semibold bg-primary-azul text-white hover:opacity-90 transition-colors duration-200">
+					<a href="/contacto" class="inline-block w-auto min-w-[190px] text-center px-6 py-3 sm:py-2 rounded-lg font-semibold bg-primary-azul text-white hover:opacity-90 transition-colors duration-200">
 						Contactanos
 					</a>
 				</div>
 			</div>
 		</section>
 
-		<section class="py-20">
-			<div class="text-center mb-12">
-				<h2 class="text-4xl font-montserrat font-bold text-primary-negro mb-4">
+		<section class="py-14 sm:py-20">
+			<div class="text-center mb-10 sm:mb-12">
+				<h2 class="text-2xl sm:text-4xl font-montserrat font-bold text-primary-negro mb-4">
 					Confían en nosotros
 				</h2>
-				<p class="text-gray-600 text-lg">
+				<p class="text-gray-600 text-base sm:text-lg max-w-3xl mx-auto">
 					Acompañamos a profesionales, empresas y comercios con soluciones contables claras y a tiempo.
 				</p>
 			</div>
 
 			<!-- Tarjetas de estadísticas -->
-			<div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16">
-				<div class="rounded-2xl bg-gradient-to-br from-orange-50 to-white border-2 border-primary-naranja/20 p-8 shadow-lg hover:shadow-xl transition-all text-center">
-					<p class="text-5xl font-bold text-primary-naranja mb-2" data-stat="anos_asesorando">+{stats.anos_asesorando}</p>
+			<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-12 sm:mb-16">
+				<div class="rounded-2xl bg-gradient-to-br from-orange-50 to-white border-2 border-primary-naranja/20 p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all text-center">
+					<p class="text-4xl sm:text-5xl font-bold text-primary-naranja mb-2" data-stat="anos_asesorando">{formatStat(stats.anos_asesorando)}</p>
 					<p class="text-gray-700 font-semibold">años ofreciendo soluciones</p>
 				</div>
-				<div class="rounded-2xl bg-gradient-to-br from-blue-50 to-white border-2 border-primary-azul/20 p-8 shadow-lg hover:shadow-xl transition-all text-center">
-					<p class="text-5xl font-bold text-primary-azul mb-2" data-stat="total_clientes_activos">+{stats.total_clientes_activos}</p>
+				<div class="rounded-2xl bg-gradient-to-br from-blue-50 to-white border-2 border-primary-azul/20 p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all text-center">
+					<p class="text-4xl sm:text-5xl font-bold text-primary-azul mb-2" data-stat="total_clientes_activos">{formatStat(stats.total_clientes_activos)}</p>
 					<p class="text-gray-700 font-semibold">clientes confían en nosotros</p>
 				</div>
-				<div class="rounded-2xl bg-gradient-to-br from-red-50 to-white border-2 border-primary-rojo/20 p-8 shadow-lg hover:shadow-xl transition-all text-center">
-					<p class="text-5xl font-bold text-primary-rojo mb-2" data-stat="rubros_atendidos">+{stats.rubros_atendidos}</p>
+				<div class="rounded-2xl bg-gradient-to-br from-red-50 to-white border-2 border-primary-rojo/20 p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all text-center">
+					<p class="text-4xl sm:text-5xl font-bold text-primary-rojo mb-2" data-stat="rubros_atendidos">{formatStat(stats.rubros_atendidos)}</p>
 					<p class="text-gray-700 font-semibold">rubros asesorados</p>
 				</div>
 			</div>
 
 			<!-- Rubros atendidos -->
 			<div class="text-center">
-				<h3 class="text-2xl font-montserrat font-bold text-primary-negro mb-8">Rubros atendidos</h3>
+				<h3 class="text-xl sm:text-2xl font-montserrat font-bold text-primary-negro mb-6 sm:mb-8">Rubros atendidos</h3>
 				<div class="carousel-container">
 					<div class="carousel-track" data-rubros-track>
 						{stats.rubros_list.map((rubro) => (
@@ -151,20 +146,20 @@ const getRubroIconClass = (rubro: string) =>
 			</div>
 		</section>
 
-		<section class="py-12" id="servicios">
-			<h2 class="text-3xl font-montserrat font-bold text-primary-negro mb-6 text-center">
+		<section class="py-10 sm:py-12" id="servicios">
+			<h2 class="text-2xl sm:text-3xl font-montserrat font-bold text-primary-negro mb-6 text-center">
 				Nuestros servicios
 			</h2>
-			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-6xl mx-auto">
 				{servicesSummary.map((service) => (
 					<a
 						href={service.href}
-						class={`bg-white p-6 rounded-xl shadow-sm border-t-4 ${service.accent} hover:shadow-md transition-shadow block`}
+						class={`bg-white p-5 sm:p-6 lg:p-8 rounded-xl shadow-sm border-t-4 ${service.accent} hover:shadow-md transition-shadow block`}
 					>
-						<h3 class="text-lg font-montserrat font-bold text-primary-negro mb-2">
+						<h3 class="text-lg lg:text-xl font-montserrat font-bold text-primary-negro mb-2 lg:mb-3">
 							{service.title}
 						</h3>
-						<p class="text-sm text-gray-600">
+						<p class="text-sm lg:text-base text-gray-600 leading-relaxed">
 							{service.description}
 						</p>
 					</a>
@@ -209,17 +204,6 @@ const getRubroIconClass = (rubro: string) =>
 	const getRubroIconClass = (rubro) =>
 		rubroIconMap[normalizeRubroKey(rubro)] ?? 'fa-briefcase';
 
-	const calculateYears = () => {
-		const startDate = new Date('2007-01-01');
-		const now = new Date();
-		let years = now.getFullYear() - startDate.getFullYear();
-		const anniversaryThisYear = new Date(now.getFullYear(), startDate.getMonth(), startDate.getDate());
-		if (now < anniversaryThisYear) {
-			years -= 1;
-		}
-		return years;
-	};
-
 	const renderRubros = (rubros) => {
 		if (!rubrosTrack || !Array.isArray(rubros) || rubros.length === 0) {
 			return;
@@ -245,36 +229,61 @@ const getRubroIconClass = (rubro: string) =>
 			return;
 		}
 
-		const years = calculateYears();
-		const normalizedData = {
-			...data,
-			anos_asesorando: years
-		};
-
 		statsElements.forEach((element) => {
 			const key = element.getAttribute('data-stat');
-			if (key && key in normalizedData) {
-				element.textContent = `+${normalizedData[key]}`;
+			const value = key ? data[key] : null;
+			if (typeof value === 'number' && Number.isFinite(value)) {
+				element.textContent = `+${value}`;
 			}
 		});
 
-		renderRubros(normalizedData.rubros_list);
+		renderRubros(Array.isArray(data.rubros_list) ? data.rubros_list : []);
 	};
 
 	const fetchStats = async () => {
-		try {
-			const response = await fetch('/api/stats.php', { cache: 'no-store' });
-			if (!response.ok) {
-				return;
+		const isLocalhost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+		const isAstroDevPort = window.location.port === '4321';
+		const runningInsideProjectPath = window.location.pathname.startsWith('/estudio-novara/');
+
+		const endpoints = [];
+
+		if (!isAstroDevPort) {
+			if (runningInsideProjectPath) {
+				endpoints.push('/estudio-novara/api/stats.php');
 			}
-			const data = await response.json();
-			updateStats(data);
-		} catch (error) {
-			console.error('Error fetching stats:', error);
+			endpoints.push('/api/stats.php');
 		}
+
+		if (isLocalhost) {
+			endpoints.push('http://localhost/estudio-novara/api/stats.php');
+		}
+
+		for (const endpoint of endpoints) {
+			try {
+				const response = await fetch(endpoint, { cache: 'no-store' });
+				if (!response.ok) {
+					continue;
+				}
+
+				const rawBody = await response.text();
+				const trimmedBody = rawBody.trim();
+				const looksLikeJson = trimmedBody.startsWith('{') || trimmedBody.startsWith('[');
+
+				if (!looksLikeJson) {
+					continue;
+				}
+
+				const data = JSON.parse(trimmedBody);
+				updateStats(data);
+				return;
+			} catch (error) {
+				console.warn(`Stats endpoint failed: ${endpoint}`, error);
+			}
+		}
+
+		console.error('Error fetching stats: no se pudo obtener JSON válido desde ningún endpoint.');
 	};
 
-	updateStats({});
 	fetchStats();
 </script>
 
@@ -339,9 +348,10 @@ const getRubroIconClass = (rubro: string) =>
 		}
 	}
 
-	.rubro-card {
+	:global(.rubro-card) {
 		flex-shrink: 0;
-		min-width: 200px;
+		min-width: 240px;
+		min-height: 96px;
 		padding: 20px 32px;
 		background: linear-gradient(135deg, rgba(47, 101, 109, 0.18) 0%, rgba(213, 118, 41, 0.12) 100%);
 		border-radius: 12px;
@@ -355,7 +365,7 @@ const getRubroIconClass = (rubro: string) =>
 		position: relative;
 	}
 
-	.rubro-card::before {
+	:global(.rubro-card)::before {
 		content: '';
 		position: absolute;
 		top: 0;
@@ -366,13 +376,13 @@ const getRubroIconClass = (rubro: string) =>
 		border-radius: 12px 12px 0 0;
 	}
 
-	.rubro-card:hover {
+	:global(.rubro-card:hover) {
 		transform: translateY(-4px);
 		box-shadow: 0 10px 24px rgba(47, 101, 109, 0.28), 0 3px 6px rgba(0, 0, 0, 0.1);
 		border-color: rgba(47, 101, 109, 0.8);
 	}
 
-	.rubro-icon {
+	:global(.rubro-icon) {
 		width: 36px;
 		height: 36px;
 		border-radius: 10px;
@@ -384,11 +394,11 @@ const getRubroIconClass = (rubro: string) =>
 		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
 	}
 
-	.rubro-icon i {
+	:global(.rubro-icon i) {
 		font-size: 16px;
 	}
 
-	.rubro-title {
+	:global(.rubro-title) {
 		font-size: 15px;
 		font-weight: 600;
 		color: #333437;
@@ -396,15 +406,22 @@ const getRubroIconClass = (rubro: string) =>
 		margin: 0;
 		font-family: 'Montserrat', sans-serif;
 		letter-spacing: 0.3px;
+		line-height: 1.25;
+		max-width: 15ch;
 	}
 
 	@media (max-width: 640px) {
-		.rubro-card {
-			min-width: 160px;
-			padding: 16px 24px;
+		.hero-section {
+			border-radius: 16px;
+		}
+
+		:global(.rubro-card) {
+			min-width: 170px;
+			min-height: 88px;
+			padding: 14px 18px;
 		}
 		
-		.rubro-title {
+		:global(.rubro-title) {
 			font-size: 14px;
 		}
 		
